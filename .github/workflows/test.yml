@@ -1,0 +1,22 @@
+name: Tap test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test-bot:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-latest, macos-14, ubuntu-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Homebrew
+        uses: Homebrew/actions/setup-homebrew@master
+
+      - name: Run brew test-bot
+        run: brew test-bot --only-formulae --tap=avocado-linux/tap
