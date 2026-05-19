@@ -6,7 +6,8 @@ on:
   pull_request:
 
 jobs:
-  test-bot:
+  test-formulae:
+    name: Test formulae (${{ matrix.os }})
     strategy:
       fail-fast: false
       matrix:
@@ -20,3 +21,20 @@ jobs:
 
       - name: Run brew test-bot
         run: brew test-bot --only-formulae --tap=avocado-linux/tap
+
+  test-casks:
+    # Casks are macOS-only by definition — Linux runners can't `brew install`
+    # a .app bundle. The matrix here just exercises the latest hosted runner
+    # image; multi-version coverage is overkill for v1.
+    name: Test casks (macos-latest)
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Homebrew
+        uses: Homebrew/actions/setup-homebrew@master
+
+      - name: Run brew test-bot
+        # `--only-casks` flips test-bot into cask mode; it brew-style audits
+        # each Casks/*.rb (URL reachable, sha256 valid, lint passes).
+        run: brew test-bot --only-casks --tap=avocado-linux/tap
