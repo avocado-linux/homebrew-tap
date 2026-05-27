@@ -2,10 +2,21 @@ cask "avocado-desktop" do
   version "0.4.0"
   sha256 "42a7e986afe765ba4524c7a925dd0f967cdaccf8c55958042ddb7bacd9ff80e1"
 
-  url "https://repo.avocadolinux.org/releases/desktop/stable/Avocado-#{version}.dmg"
+  url "https://repo.avocadolinux.org/releases/desktop/stable/Avocado-#{version}.dmg",
+      verified: "repo.avocadolinux.org/releases/desktop/"
   name "Avocado Desktop"
   desc "Host-side helper for the Avocado Linux development VM"
   homepage "https://github.com/avocado-linux/avocado-desktop"
+
+  # `brew livecheck` reads our published latest.json so users see
+  # "outdated" badges (and brew upgrade --greedy works) without us
+  # having to scrape S3 directory listings.
+  livecheck do
+    url "https://repo.avocadolinux.org/releases/desktop-tauri/latest.json"
+    strategy :json do |json|
+      json["version"]
+    end
+  end
 
   # The app owns its own updates via tauri-plugin-updater, which polls
   # repo.avocadolinux.org/releases/desktop-tauri/latest.json and atomic-
