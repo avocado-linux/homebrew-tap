@@ -26,14 +26,13 @@ cask "avocado-desktop" do
   # `brew upgrade --cask --greedy avocado-desktop` ONCE to pick up
   # 0.4.0, after which the in-app updater takes over.
   auto_updates true
-
-  depends_on macos: ">= :sonoma"
+  depends_on macos: :sonoma
 
   app "Avocado.app"
 
   # Bundle ID lookup for `brew uninstall --cask` cleanup.
-  uninstall quit:      "com.peridio.avocadodesktop",
-            launchctl: "com.peridio.avocadodesktop"
+  uninstall launchctl: "com.peridio.avocadodesktop",
+            quit:      "com.peridio.avocadodesktop"
 
   # `zap` is the explicit "delete every trace of this app" path users
   # invoke with `brew uninstall --cask --zap avocado-desktop`. Includes
