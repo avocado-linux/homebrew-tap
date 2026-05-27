@@ -7,10 +7,13 @@ cask "avocado-desktop" do
   desc "Host-side helper for the Avocado Linux development VM"
   homepage "https://github.com/avocado-linux/avocado-desktop"
 
-  # Sparkle owns updates. `auto_updates true` tells Homebrew "don't try to
-  # `brew upgrade` me" — the app's in-process Sparkle integration polls
-  # repo.avocadolinux.org/releases/desktop/appcast.xml on its own cadence
-  # and atomic-swaps the bundle when a new EdDSA-signed release lands.
+  # The app owns its own updates via tauri-plugin-updater, which polls
+  # repo.avocadolinux.org/releases/desktop-tauri/latest.json and atomic-
+  # swaps the bundle when a new minisign-signed release lands.
+  # `auto_updates true` tells Homebrew "don't try to `brew upgrade` me";
+  # users on the prior Sparkle-based 0.3.x line need to run
+  # `brew upgrade --cask --greedy avocado-desktop` ONCE to pick up
+  # 0.4.0, after which the in-app updater takes over.
   auto_updates true
 
   depends_on macos: ">= :sonoma"
@@ -23,7 +26,9 @@ cask "avocado-desktop" do
 
   # `zap` is the explicit "delete every trace of this app" path users
   # invoke with `brew uninstall --cask --zap avocado-desktop`. Includes
-  # the Sparkle update cache + the app's own logs/state.
+  # the app's own logs/state + leftover Sparkle/tauri-updater caches
+  # (Sparkle from the pre-0.4.0 SwiftUI builds; the Tauri updater
+  # writes its staging area under the same Caches dir).
   zap trash: [
     "~/Library/Application Support/Avocado",
     "~/Library/Caches/com.peridio.avocadodesktop",

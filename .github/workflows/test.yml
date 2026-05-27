@@ -17,7 +17,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Set up Homebrew
-        uses: Homebrew/actions/setup-homebrew@master
+        uses: Homebrew/actions/setup-homebrew@main
 
       - name: Run brew test-bot
         run: brew test-bot --only-formulae --tap=avocado-linux/tap
@@ -32,9 +32,28 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Set up Homebrew
-        uses: Homebrew/actions/setup-homebrew@master
+        uses: Homebrew/actions/setup-homebrew@main
 
-      - name: Run brew test-bot
-        # `--only-casks` flips test-bot into cask mode; it brew-style audits
-        # each Casks/*.rb (URL reachable, sha256 valid, lint passes).
-        run: brew test-bot --only-casks --tap=avocado-linux/tap
+      - name: Tap this checkout so brew audit can resolve casks
+        # `brew audit --cask <name>` needs the cask reachable under a
+        # tapped namespace. Symlink the checkout into the standard tap
+        # path so `brew audit avocado-linux/tap/avocado-desktop` works.
+        run: |
+          TAP_DIR="$(brew --repository)/Library/Taps/avocado-linux/homebrew-tap"
+          mkdir -p "$(dirname "$TAP_DIR")"
+          ln -sf "$GITHUB_WORKSPACE" "$TAP_DIR"
+
+      - name: Audit casks
+        # `brew test-bot --only-casks` was removed in Homebrew 4.x;
+        # `brew audit --strict --online --cask` is the modern
+        # equivalent (URL reachable, sha256 valid, lint passes).
+        run: |
+          for cask in Casks/*.rb; do
+            name=$(basename "$cask" .rb)
+            echo "::group::audit $name"
+            brew audit --strict --online --cask "avocado-linux/tap/$name"
+            echo "::endgroup::"
+          done
+
+      - name: Style check casks
+        run: brew style Casks/
