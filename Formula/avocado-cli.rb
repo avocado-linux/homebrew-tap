@@ -1,28 +1,28 @@
 class AvocadoCli < Formula
   desc "Command line interface for Avocado Linux"
   homepage "https://github.com/avocado-linux/avocado-cli"
-  version "1.0.0-rc.3"
+  version "1.0.0-rc.4"
   license "Apache-2.0"
 
   on_macos do
     on_arm do
       url "https://github.com/avocado-linux/avocado-cli/releases/download/#{version}/avocado-#{version}_aarch64-apple-darwin.tar.gz"
-      sha256 "74b652e7cf0eb10e4aa71cff081c34cab5f4b5bb3f8d55cdf0132af7d50df9ef"
+      sha256 "f8117a61cc8880e184ba84a6fdb262017ff5a595910cf78cc983aada453d2039"
     end
     on_intel do
       url "https://github.com/avocado-linux/avocado-cli/releases/download/#{version}/avocado-#{version}_x86_64-apple-darwin.tar.gz"
-      sha256 "68c74854efd38ecd8f3e8d813cf0351b4f4c3878d84ea5e6aa1e0de2b3673407"
+      sha256 "be91ec13cd09f1c81c7ad129dcc4d9e20b1392ae1e5e87745e5d87a77421bdfe"
     end
   end
 
   on_linux do
     on_arm do
       url "https://github.com/avocado-linux/avocado-cli/releases/download/#{version}/avocado-#{version}_aarch64-unknown-linux-musl.tar.gz"
-      sha256 "f32a51ecd806fa29e93e3dafd60870f8d3bb7ff28ed0315c03a01c0ef8cd3fe2"
+      sha256 "c0587b1b6ba50c3264a11cbdcfca14b1a2c4416d332a6e1f9308b031f3d04782"
     end
     on_intel do
       url "https://github.com/avocado-linux/avocado-cli/releases/download/#{version}/avocado-#{version}_x86_64-unknown-linux-gnu.tar.gz"
-      sha256 "efed946b4020e192e7b8230c2708de41d7c10848266e24bfac7c38d3fc022cfa"
+      sha256 "b34bcf4c2d35e3f7136e07dbeb55eeb8f13d24c37770dad6c5a799e6e0c94de7"
     end
   end
 
