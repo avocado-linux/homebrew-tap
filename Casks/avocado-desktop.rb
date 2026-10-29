@@ -1,6 +1,6 @@
 cask "avocado-desktop" do
-  version "0.4.4"
-  sha256 "f4cabd8144d7ff8a9b84e5dc49ec3533f87f8dab0eb09485f2b65f5f53531115"
+  version "1.0.0"
+  sha256 "b393e018607b60abbc9ecc4f6d49a5da54c0965a9b50aec50b99c62d20b607f1"
 
   url "https://repo.avocadolinux.org/releases/desktop/stable/Avocado-#{version}.dmg",
       verified: "repo.avocadolinux.org/releases/desktop/"
