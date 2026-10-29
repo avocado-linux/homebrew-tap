@@ -26,7 +26,7 @@ cask "avocado-desktop" do
   # `brew upgrade --cask --greedy avocado-desktop` ONCE to pick up
   # 0.4.0, after which the in-app updater takes over.
   auto_updates true
-  depends_on macos: :sonoma
+  depends_on macos: :ventura
 
   app "Avocado.app"
 
